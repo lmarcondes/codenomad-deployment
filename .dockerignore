@@ -1,0 +1,23 @@
+# Ignore git metadata
+.git
+.gitignore
+
+# Ignore environment files (secrets)
+.env
+.env.local
+.env.*.local
+
+# Ignore workspaces (they are bind-mounted)
+workspaces/
+
+# Ignore documentation
+*.md
+LICENSE
+
+# Ignore IDE files
+.vscode/
+.idea/
+
+# Ignore OS files
+.DS_Store
+Thumbs.db

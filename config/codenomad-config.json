@@ -1,0 +1,11 @@
+{
+  "server": {
+    "host": "0.0.0.0",
+    "httpPort": 9899,
+    "https": false,
+    "http": true
+  },
+  "ui": {
+    "autoUpdate": true
+  }
+}

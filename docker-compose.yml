@@ -1,0 +1,87 @@
+# =============================================================================
+# CodeNomad + OpenCode - Docker Compose Configuration
+# =============================================================================
+# Usage:
+#   1. Copy .env.example to .env and fill in your values
+#   2. Run: docker compose up -d
+#   3. Access CodeNomad at http://<host>:9899
+# =============================================================================
+
+services:
+  codenomad:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: codenomad
+    restart: unless-stopped
+
+    # --- Ports ---
+    # CodeNomad web UI and API
+    ports:
+      - "${CODENOMAD_HTTP_PORT:-9899}:9899"
+
+    # --- Environment ---
+    environment:
+      # CodeNomad server settings
+      CODENOMAD_HOST: "0.0.0.0"
+      CODENOMAD_HTTP_PORT: "9899"
+      CODENOMAD_WORKSPACE_ROOT: "/workspaces"
+      CODENOMAD_UNRESTRICTED_ROOT: "${CODENOMAD_UNRESTRICTED_ROOT:-false}"
+
+      # CodeNomad authentication
+      CODENOMAD_SERVER_USERNAME: "${CODENOMAD_SERVER_USERNAME:-admin}"
+      CODENOMAD_SERVER_PASSWORD: "${CODENOMAD_SERVER_PASSWORD}"
+      CODENOMAD_SKIP_AUTH: "${CODENOMAD_SKIP_AUTH:-false}"
+
+      # OpenCode server authentication (for the opencode HTTP API)
+      OPENCODE_SERVER_PASSWORD: "${OPENCODE_SERVER_PASSWORD:-}"
+      OPENCODE_SERVER_USERNAME: "${OPENCODE_SERVER_USERNAME:-opencode}"
+
+      # LLM Provider API Keys
+      ANTHROPIC_API_KEY: "${ANTHROPIC_API_KEY:-}"
+      OPENAI_API_KEY: "${OPENAI_API_KEY:-}"
+      OPENCODE_API_KEY: "${OPENCODE_API_KEY:-}"
+      OPENROUTER_API_KEY: "${OPENROUTER_API_KEY:-}"
+
+    # --- Volumes ---
+    volumes:
+      # Project workspaces - bind mount from host
+      - "${WORKSPACES_PATH:-./workspaces}:/workspaces"
+
+      # Persist OpenCode session data and auth between restarts
+      - opencode-data:/home/codeuser/.local/share/opencode
+
+      # Persist CodeNomad configuration
+      - codenomad-config:/home/codeuser/.config/codenomad
+
+      # Optional: mount SSH keys for git operations (read-only)
+      # Uncomment the line below if your projects need SSH git access
+      # - "${HOME}/.ssh:/home/codeuser/.ssh:ro"
+
+      # Optional: mount git config for commit identity
+      # - "${HOME}/.gitconfig:/home/codeuser/.gitconfig:ro"
+
+    # --- Resource Limits ---
+    # Adjust based on your workload. OpenCode + CodeNomad are Node.js
+    # processes; each active session uses additional memory.
+    deploy:
+      resources:
+        limits:
+          memory: 4G
+          cpus: "2.0"
+        reservations:
+          memory: 512M
+          cpus: "0.5"
+
+    # --- Logging ---
+    logging:
+      driver: json-file
+      options:
+        max-size: "10m"
+        max-file: "3"
+
+volumes:
+  opencode-data:
+    driver: local
+  codenomad-config:
+    driver: local
