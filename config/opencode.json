@@ -1,23 +1,5 @@
 {
   "$schema": "https://opencode.ai/config.json",
-  "autoupdate": true,
-  "share": "manual",
-  "server": {
-    "port": 4096,
-    "hostname": "0.0.0.0"
-  },
-  "permission": {
-    "edit": "allow",
-    "write": "allow",
-    "bash": "allow",
-    "glob": "allow",
-    "grep": "allow",
-    "read": "allow",
-    "fetch": "allow"
-  },
-  "compaction": {
-    "auto": true,
-    "prune": true,
-    "reserved": 10000
-  }
+  "share": "disabled",
+  "logLevel": "DEBUG"
 }

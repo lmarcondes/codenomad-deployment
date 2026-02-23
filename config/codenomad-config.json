@@ -4,8 +4,5 @@
     "httpPort": 9899,
     "https": false,
     "http": true
-  },
-  "ui": {
-    "autoUpdate": true
   }
 }

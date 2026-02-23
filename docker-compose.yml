@@ -31,7 +31,7 @@ services:
       # CodeNomad authentication
       CODENOMAD_SERVER_USERNAME: "${CODENOMAD_SERVER_USERNAME:-admin}"
       CODENOMAD_SERVER_PASSWORD: "${CODENOMAD_SERVER_PASSWORD}"
-      CODENOMAD_SKIP_AUTH: "${CODENOMAD_SKIP_AUTH:-false}"
+      # CODENOMAD_SKIP_AUTH: "${CODENOMAD_SKIP_AUTH:-false}"
 
       # OpenCode server authentication (for the opencode HTTP API)
       OPENCODE_SERVER_PASSWORD: "${OPENCODE_SERVER_PASSWORD:-}"
@@ -79,9 +79,17 @@ services:
       options:
         max-size: "10m"
         max-file: "3"
+    networks:
+      default:
+      ingress:
 
 volumes:
   opencode-data:
     driver: local
   codenomad-config:
     driver: local
+
+networks:
+  ingress:
+    external: true
+    name: ingress
