@@ -97,10 +97,10 @@ if [[ -n "${CODENOMAD_SERVER_PASSWORD}" ]]; then
     CODENOMAD_ARGS+=("--password" "${CODENOMAD_SERVER_PASSWORD}")
 fi
 
-# Skip auth if explicitly requested
-if [[ "${CODENOMAD_SKIP_AUTH}" == "true" ]]; then
-    CODENOMAD_ARGS+=("--dangerously-skip-auth")
-fi
+# # Skip auth if explicitly requested
+# if [[ "${CODENOMAD_SKIP_AUTH}" == "true" ]]; then
+#     CODENOMAD_ARGS+=("--dangerously-skip-auth")
+# fi
 
 # Allow unrestricted filesystem browsing if enabled
 if [[ "${CODENOMAD_UNRESTRICTED_ROOT:-false}" == "true" ]]; then
